@@ -4,16 +4,16 @@ set -e
 WP_PATH="/var/www/html"
 
 echo "Waiting for MariaDB to be ready..."
-#until mariadb-admin ping -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" --silent; do
+#until mariadb-admin ping -h"$WP_DB_HOST" -u"$WP_USER_NAME" -p"$WP_USER_PWD" --silent; do
 until mariadb-admin ping -h"mariadb" --silent; do
     	sleep 2
 done
 
 # Read password from secret file
-if [ -n "$WORDPRESS_DB_PASSWORD_FILE" ] && [ -f "$WORDPRESS_DB_PASSWORD_FILE" ]; then
+#if [ -n "$WORDPRESS_DB_PASSWORD_FILE" ] && [ -f "$WORDPRESS_DB_PASSWORD_FILE" ]; then
     WORDPRESS_DB_PASSWORD=$(cat "$WORDPRESS_DB_PASSWORD_FILE")
-    export WORDPRESS_DB_PASSWORD
-fi
+#    export WORDPRESS_DB_PASSWORD
+#fi
 
 echo "Setting up WordPress..."
 
@@ -28,24 +28,24 @@ if [ ! -f "$WP_PATH/wp-config.php" ]; then
         --dbname="${MYSQL_DATABASE}" \
         --dbuser="${MYSQL_USER}" \
         --dbpass="${MYSQL_PASSWORD}" \
-        --dbhost="mariadb:3306" \
+        --dbhost="$WP_DB_HOST" \
         --path="$WP_PATH"
 
     echo "Executing WordPress core installation..."
-    # C'est cette étape WP-CLI qui valide l'automatisation complète exigée par le sujet
+    # Automatic site configuration required by the subject
     wp core install --allow-root \
-        --url="${WORDPRESS_URL}" \
-        --title="${WORDPRESS_TITLE}" \
-        --admin_user="${WORDPRESS_ADMIN_USER}" \
-        --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
-        --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
+        --url="${DOMAIN_NAME}" \
+        --title="${SITE_TITLE}" \
+        --admin_user="${WP_ADMIN_NAME}" \
+        --admin_password="${WP_ADMIN_PWD}" \
+        --admin_email="${WP_ADMIN_EMAIL}" \
         --path="$WP_PATH"
 
     echo "Creating an extra WordPress user..."
-    # Souvent demandé pour ne pas utiliser uniquement le compte admin
-    wp user create "${WORDPRESS_USER}" "${WORDPRESS_USER_EMAIL}" \
+    # Mostly used instead of admin
+    wp user create "${WP_USER_NAME}" "${WP_USER_MAIL}" \
         --role=author \
-        --user_pass="${WORDPRESS_USER_PASSWORD}" \
+	--user_pass="${WP_USER_PWD}" \
         --allow-root \
         --path="$WP_PATH"
 
@@ -58,6 +58,8 @@ if [ ! -f "$WP_PATH/wp-config.php" ]; then
 else
     echo "WordPress already initialized, skipping setup."
 fi
+
+mkdir -p /run/php
 
 echo "Starting PHP-FPM..."
 exec php-fpm8.2 -F
