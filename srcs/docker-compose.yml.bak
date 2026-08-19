@@ -1,0 +1,30 @@
+services:
+  mariadb:
+    build: 
+      context: requirements/mariadb
+    image: mariadb:inception
+    container_name: mariadb
+    networks:
+      - inception-network
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    env_file:
+      - .env
+    secrets:
+      - db_root_password
+      - db_password
+    restart: always
+
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/mariadb
