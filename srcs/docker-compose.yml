@@ -14,21 +14,21 @@ services:
       - inception_network
     restart: always
 
-wordpress:
-  container_name: wordpress
-  build:
-    context: ./requirements/wordpress
-  depends_on:
-    - mariadb
-  env_file:
-    - .env
-  ports:
-    - "9090:9090"
-  volumes:
-    - wordpress_data:/var/www/html/wordpress
-  networks:
-    - inception_network
-  restart: always
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    ports:
+      - "9090:9090"
+    volumes:
+      - wordpress_data:/var/www/html/wordpress
+    networks:
+      - inception_network
+    restart: always
 
 volumes:
   mariadb_data:
@@ -38,8 +38,11 @@ volumes:
       device: /home/epinaud/data/mariadb
       o: bind
   wordpress_data:
-    driver: local
-    driver_opts:
+     driver: local
+     driver_opts:
+      type: none
+      o: bind
+      device: /home/epinaud/data/wordpress
 
 networks:
   inception_network:
