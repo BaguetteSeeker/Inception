@@ -15,9 +15,9 @@ setup:
 start:
 	${COMPOSE} ${FILE} start
 
-# Build and start
-up: setup
-	${COMPOSE} $(FILE) up
+# Builds and run / Background execution
+build:
+	${COMPOSE} ${FILE} up -d
 
 # Stops container
 stop:
@@ -35,8 +35,11 @@ fclean: clean
 # Rebuild everything
 re: fclean all
 
+# Shows online containers (add -a for offline ones)
 status:
 	${COMPOSE} ${FILE} ps
+
+# Reads in real time logs from running containers (avoids running services in the foreground and blocking prompt)
 logs:
 	${COMPOSE} ${FILE} logs -f
 
