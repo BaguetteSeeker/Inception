@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-    ports:
-      - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
@@ -22,12 +20,26 @@ services:
       - mariadb
     env_file:
       - .env
-    ports:
-      - "9090:9090"
     volumes:
-      - wordpress_data:/var/www/html/wordpress
+      - wordpress_data:/var/www/html
     networks:
       - inception_network
+    restart: always
+  
+  nginx:
+    build:
+      context: requirements/nginx
+    container_name: nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    networks:
+      - inception_network
+    volumes:
+      - wordpress_data:/var/www/html
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
     restart: always
 
 volumes:

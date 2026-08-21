@@ -21,7 +21,7 @@ up: setup
 
 # Stops container
 stop:
-	docker stop ${FILE}
+	${COMPOSE} ${FILE} down
 
 # Calls down target
 clean: down
