@@ -4,14 +4,14 @@ set -e
 WP_PATH="/var/www/html"
 
 echo "Waiting for MariaDB to be ready..."
-#until mariadb-admin ping -h"$WP_DB_HOST" -u"$WP_USER_NAME" -p"$WP_USER_PWD" --silent; do
-until mariadb-admin ping -h"mariadb" --silent; do
+#until mariadb-admin ping -h"$WP_DB_HOST" -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" --silent; do
+until mariadb-admin -h"mariadb" ping --silent; do
     	sleep 2
 done
 
 # Read password from secret file
 #if [ -n "$WORDPRESS_DB_PASSWORD_FILE" ] && [ -f "$WORDPRESS_DB_PASSWORD_FILE" ]; then
-    WORDPRESS_DB_PASSWORD=$(cat "$WORDPRESS_DB_PASSWORD_FILE")
+#    WORDPRESS_DB_PASSWORD=$(cat "$WORDPRESS_DB_PASSWORD_FILE")
 #    export WORDPRESS_DB_PASSWORD
 #fi
 
