@@ -6,6 +6,9 @@ set -e
 # Set socket path
 SOCKET_PATH="/var/run/mysqld/mysqld.sock"
 FLAG_FILE="/var/lib/mysql/.db_configured" 
+# Load secrets
+MYSQL_ROOT_PASSWORD=$(cat "$SECRETS_PATH/mysql_root_pwd")
+MYSQL_PASSWORD=$(cat "$SECRETS_PATH/mysql_pwd")
 
 # --- ANTI-CRASH CLEANUP ---
 echo "Cleaning up old sockets and pid files..."

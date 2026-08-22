@@ -1,5 +1,6 @@
 services:
   mariadb:
+    image: mariadb:epinaud
     container_name: mariadb
     build:
       context: ./requirements/mariadb
@@ -11,8 +12,12 @@ services:
     networks:
       - inception_network
     restart: always
+    secrets:
+      - mysql_pwd
+      - mysql_root_pwd
 
   wordpress:
+    image: wordpress:epinaud
     container_name: wordpress
     build:
       context: ./requirements/wordpress
@@ -25,11 +30,15 @@ services:
     networks:
       - inception_network
     restart: always
-  
+    secrets:
+      - mysql_pwd
+      - wp_usr_pwd
+      - wp_admin_pwd
   nginx:
+    image: nginx:epinaud
+    container_name: nginx
     build:
       context: requirements/nginx
-    container_name: nginx
     depends_on:
       - wordpress
     ports:
@@ -59,3 +68,13 @@ volumes:
 networks:
   inception_network:
     driver: bridge
+
+secrets:
+  mysql_pwd:
+    file: /home/epinaud/Inception/secrets/mysql_pwd.txt
+  mysql_root_pwd:
+    file: /home/epinaud/Inception/secrets/mysql_root_pwd.txt
+  wp_usr_pwd:
+    file: /home/epinaud/Inception/secrets/wp_usr_pwd.txt
+  wp_admin_pwd:
+    file: /home/epinaud/Inception/secrets/wp_admin_pwd.txt

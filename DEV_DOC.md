@@ -14,9 +14,10 @@ This document provides technical guidelines for developers working on the Incept
   * `make` utility
 
 ### Configuration Files
-The project relies on a `.env` file at the root to inject environment variables into containers.
+The project relies on a combinaison of `.env` files injected into containers and Docker secrets to securely store passwords.
 1. Create a `.env` file based on the provided template.
-2. Ensure mandatory variables are defined (e.g., `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`, `DOMAIN_NAME`).
+2. Ensure mandatory variables are defined (e.g., `MYSQL_DATABASE`, `MYSQL_USER`, `DOMAIN_NAME`, `WP_ADMIN_NAME`, `WP_ADMIN_EMAIL`, `WP_USER_NAME`, `WP_USER_EMAIL`, `WP_DB_HOST=mariadb:3306`, `SITE_TITLE`).
+3. Set your secret passwords within the following files : `mysql_pwd.txt`  `mysql_root_pwd.txt`  `wp_admin_pwd.txt`  `wp_usr_pwd.txt`
 
 ### Secrets Management
 Sensitive information (database passwords, root passwords) must not be hardcoded in Dockerfiles.
