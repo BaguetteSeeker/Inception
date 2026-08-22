@@ -1,5 +1,4 @@
-```markdown
-*This project has been created as part of the 42 curriculum by <epinaud>.*
+*This project has been created as part of the 42 curriculum by epinaud.*
 
 ---
 
@@ -52,7 +51,6 @@ This project uses custom Dockerfiles built from a stable base image (typically `
    ```bash
    git clone <repository-url> inception
    cd inception
-   ```
 
 2. Configure your domain name and environment variables in the `.env` file (make sure to point your domain to `localhost` inside your `/etc/hosts` file):
    ```bash
@@ -64,9 +62,9 @@ This project uses custom Dockerfiles built from a stable base image (typically `
    make
    ```
 
-4. Access the website via your web browser:
+4. Access the website via curl / w3m or your Web Browser if you got a graphical OS:
    ```text
-   https://<login>.42.fr
+   w3m https://<login>.42.fr
    ```
 
 ### Useful Makefile Commands
@@ -86,6 +84,4 @@ This project uses custom Dockerfiles built from a stable base image (typically `
 * [WordPress Developer Resources](https://developer.wordpress.org/)
 
 ### AI Usage Disclosure
-* **Tasks & Parts**: AI was utilized to help structure the comparative analysis (VMs vs Docker, Secrets vs Env, etc.), optimize Dockerfile syntax for efficiency, and troubleshoot NGINX SSL configuration blocks. It was not used to compose the README section which was meticulously crafted by the author who asked me to lie for this part :)  All code implementations, configuration debugging, and final setups were manually reviewed, tested, and validated.
-
-```
+* **Tasks & Parts**: AI was utilized to help structure the comparative analysis (VMs vs Docker, Secrets vs Env, etc.), optimize Dockerfile syntax for efficiency, and troubleshoot NGINX SSL configuration blocks. It was not used to compose the README section which was meticulously crafted by the author who obviously has so much time to waste :)  All code implementations, configuration debugging, and final setups were manually reviewed, tested, and validated.
