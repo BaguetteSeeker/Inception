@@ -1,0 +1,12 @@
+# Git and OS junk
+.git
+.gitignore
+
+# Docker Compose files
+docker-compose.yml
+Makefile
+
+# Secrets and Environment
+.env
+secrets/
+*.txt
